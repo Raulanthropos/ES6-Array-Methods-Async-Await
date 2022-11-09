@@ -13,20 +13,26 @@ const modifyCard = (event) => {
     currentButton.parentElement.classList.add("red-color");
 }
 
+const addToCart = (event) => {
+    const currentButton = event.currentTarget;
+    const clonedNode = currentButton.parentElement.cloneNode(true);
+    theCart.append(clonedNode);
+    const currentListItem = currentButton.parentElement;
+    currentListItem.classList.add("selected");
+}
+
 const bookList = async function() {
     loadButton.classList.add("display-none");
     const fetchBooks = await fetch("https://striveschool-api.herokuapp.com/books");
     const result = await fetchBooks.json();
-    const books = await result.map(function(book) {
-        const bookTitles = book.title;
-        return bookTitles;
-    })
-    books.forEach(element => {
+    const books = await result.map(element => {
         const listItem = document.createElement("li");
         listItem.classList.add("list-group-item");
-        listItem.innerHTML = `<div data-header>${element}</div>` + `<button type="button" class="btn btn-secondary d-flex justify-self-end add-to-cart" onclick='modifyCard(event)'>Add to cart</button>` + `<button type="button" class="btn btn-danger d-flex justify-self-end add-to-cart" onclick='removeCard(event)'>Skip</button>`;
+        listItem.innerHTML = `<h3>${element.title}</h3>` + `<img src="${element.img}" style="width: 80%"/>` + `<button type="button" class="btn btn-secondary d-flex justify-self-end add-to-cart" onclick="addToCart(event)">Add to cart 🛒</button>` + `<button type="button" class="btn btn-danger d-flex justify-self-end add-to-cart" onclick='removeCard(event)'>Skip</button>`;
         list.appendChild(listItem);
-});
+})
+    theCart.innerHTML += `<h2 style="text-align: center;">The cart</h2>`;
+    theCart.classList.add("border");
 }
 
 loadButton.addEventListener('click', bookList);
