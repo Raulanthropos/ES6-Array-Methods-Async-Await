@@ -14,6 +14,7 @@ const modifyCard = (event) => {
 }
 
 const bookList = async function() {
+    loadButton.classList.add("display-none");
     const fetchBooks = await fetch("https://striveschool-api.herokuapp.com/books");
     const result = await fetchBooks.json();
     const books = await result.map(function(book) {
