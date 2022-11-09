@@ -14,8 +14,17 @@ const modifyCard = (event) => {
 }
 
 const addToCart = (event) => {
+    const deleteButton = document.createElement("button");
+    deleteButton.classList.add("btn-danger");
+    deleteButton.innerText = "❌";
+    deleteButton.classList.add("absolute")
+    deleteButton.addEventListener('click', removeCard);
     const currentButton = event.currentTarget;
     const clonedNode = currentButton.parentElement.cloneNode(true);
+    const childrenOfClone = clonedNode.childNodes;
+    childrenOfClone[2].classList.add("noclick");
+    childrenOfClone[3].classList.add("noclick");
+    clonedNode.append(deleteButton);
     theCart.append(clonedNode);
     const currentListItem = currentButton.parentElement;
     currentListItem.classList.add("selected");
